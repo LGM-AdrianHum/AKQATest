@@ -24,16 +24,17 @@ namespace TestApi.Models
         /// <param name="amount">Decimal Amount for the cheque</param>
         public ChequeDetails(string fullName, decimal amount)
         {
+
             //try
             //{
-                FullName = fullName;
-                Amount = amount;
-                var res = new List<ValidationResult>();
+            FullName = fullName;
+            Amount = amount;
+            var res = new List<ValidationResult>();
 
-                var isValid = Validator.TryValidateObject(this, new ValidationContext(this, null, null), res, true);
-                if (!isValid) throw new ArgumentException(string.Join("\r\n", res));
+            var isValid = Validator.TryValidateObject(this, new ValidationContext(this, null, null), res, true);
+            if (!isValid) throw new ArgumentException(string.Join("\r\n", res));
             //}
-           
+
             //catch (Exception ex) //Only Included During Debug... It should be refactored out.
             //{
             //    throw;
@@ -62,6 +63,14 @@ namespace TestApi.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrEmpty(FullName)) yield return new ValidationResult("The Bearer Name Cannot Be Empty");
+        }
+        /// <summary>
+        /// Overridden ToString to give the objects better visibility.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{FullName}, {Amount}, {DollarWords}";
         }
     }
 }
